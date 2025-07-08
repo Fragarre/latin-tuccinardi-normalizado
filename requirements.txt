@@ -1,7 +1,7 @@
 streamlit
 pandas
+Pillow
+pandas
 scipy
 matplotlib
-subprocess
-PIL
-ploty
+numpy
