@@ -12,7 +12,7 @@ Para estimar si un texto dudoso es compatible con el estilo del autor conocido:
 2. Se extraen los **n-gramas más frecuentes** del texto conocido (parámetro `s`) con longitud `n`.
 3. Se calcula el **SPI** entre cada fragmento y el perfil del autor, así como entre el texto dudoso y el mismo perfil.
 4. Se normalizan los valores mediante la fórmula del **z-score**.
-5. Se ajustan los resultados a una **distribución t de Student** para valorar si el texto dudoso cae dentro del estilo del autor o está significativamente alejado.
+5. En función del número de fragmentos, se ajustan los resultados a una **distribución t de Student** o a una **distribución normal** para valorar si el texto dudoso cae dentro del estilo del autor o está significativamente alejado.
 
 ## Estructura funcional del script
 
@@ -47,6 +47,7 @@ Ambos ficheros pueden tener cualquier nombre: el script los renombra internament
 #### 🔢 ¿Por qué usar la distribución t de Student?
 - La distribución t permite comparar el SPI del texto dudoso con los de los fragmentos, incluso cuando el número de fragmentos es pequeño.
 - Es especialmente adecuada para muestras menores de 30 fragmentos.
+- Para más de 50 fragmentos, se usa una distribución normal
 
 ## Resultados y visualización
 
@@ -54,7 +55,7 @@ El script genera:
 - Tablas `.csv` con los SPI normalizados por fragmento y el valor de `Unknown`
 - Un resumen `.md`
 - Una figura `.png` que representa:
-  - La curva t de Student
+  - La curva t de Student, o la curva normalizada
   - Los SPI normalizados de los fragmentos (flechas azules)
   - El SPI normalizado de `Unknown` (punto rojo)
 
