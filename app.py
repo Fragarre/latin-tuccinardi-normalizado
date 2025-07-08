@@ -9,7 +9,7 @@ import os
 from PIL import Image
 
 # === CONFIGURACION ===
-base_dir = Path("C:/Users/fraga/projects/stamatatos_spi_normalizado")
+base_dir = Path(__file__).resolve().parent  # ✅ Ruta relativa y portátil
 data_dir = base_dir / "data"
 tabla_dir = data_dir / "resultados" / "tablas"
 figura_dir = data_dir / "resultados" / "figuras"
