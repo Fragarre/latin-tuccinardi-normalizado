@@ -1,11 +1,6 @@
 import streamlit as st
-import pandas as pd
-import zipfile
-import shutil
-import tempfile
 from pathlib import Path
 import subprocess
-import os
 from PIL import Image
 
 # === CONFIGURACION ===
@@ -17,7 +12,7 @@ resumen_path = data_dir / "resultados" / "resumen_spi_zscore.md"
 script_path = base_dir / "analisis_spi_completo.py"
 
 st.set_page_config(page_title="Análisis de Autoría SPI", layout="centered")
-st.subheader("Análisis de Autoría mediante SPI Normalizado V 1.00")
+st.subheader("Análisis de Autoría mediante SPI Normalizado V 1.01")
 
 # === SIDEBAR ===
 st.sidebar.header("Parámetros del Modelo")
