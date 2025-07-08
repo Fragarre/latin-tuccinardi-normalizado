@@ -2,6 +2,7 @@ import streamlit as st
 from pathlib import Path
 import subprocess
 from PIL import Image
+import sys
 
 # === CONFIGURACION ===
 base_dir = Path(__file__).resolve().parent  # ✅ Ruta relativa y portátil
@@ -69,8 +70,9 @@ if run_analysis:
 
     with st.spinner("Ejecutando análisis..."):
         result = subprocess.run([
-            "python", str(script_path), str(n), s_arg
+            sys.executable, str(script_path), str(n), s_arg
         ], capture_output=True, text=True)
+    
 
     if result.returncode != 0:
         st.error("Error en la ejecución del script:")
