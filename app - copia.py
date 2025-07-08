@@ -17,7 +17,7 @@ resumen_path = data_dir / "resultados" / "resumen_spi_zscore.md"
 script_path = base_dir / "analisis_spi_completo.py"
 
 st.set_page_config(page_title="Análisis de Autoría SPI", layout="centered")
-st.subheader("Análisis de Autoría mediante SPI Normalizado")
+st.title("Análisis de Autoría mediante SPI Normalizado")
 
 # === SIDEBAR ===
 st.sidebar.header("Parámetros del Modelo")
@@ -25,7 +25,7 @@ st.sidebar.info("""
 Recarga la aplicación para nuevos ficheros.
 Pueden realizarse varias ejecuciones sobre los mismos textos, variando parámetros n y s y volviendo a 'Ejecutar Análisis'
 """)
-n = st.sidebar.selectbox("Selecciona longitud del n-grama (n)", [3, 4, 5, 6], index=1)
+n = st.sidebar.selectbox("Selecciona longitud del n-grama (n)", [3, 4, 5, 6], index=2)
 s_input = st.sidebar.text_input("Cantidad de n-gramas más frecuentes (s):", value="1000")
 
 # Validación de s

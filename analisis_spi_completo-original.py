@@ -3,7 +3,7 @@ import zipfile
 import shutil
 import pandas as pd
 from collections import Counter
-from scipy.stats import t, norm
+from scipy.stats import t
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
@@ -78,11 +78,6 @@ known_text = " ".join([f.read_text(encoding="utf-8") for f in sorted(temp_dir.gl
 unknown_text = unknown_txt.read_text(encoding="utf-8")
 fragment_size = len(unknown_text)  # tamaño en caracteres del texto dudoso
 known_length = len(known_text)
-# # PARA PRUEBAS 
-# fragment_size = 3500
-
-
-
 estimated_n = known_length // fragment_size
 
 print(f"Fragment size {fragment_size}  Number of estimated fragments {estimated_n}")
@@ -125,29 +120,18 @@ spi_unknown = calcular_spi(perfil_unknown, perfil_known)
 norm_unknown = (spi_unknown - mu) / sigma
 tabla4.append({"Modelo": modelo, "SPI_normalizado_PT": norm_unknown})
 
-# === 6. Gráfico t-Student o normal según número de fragmentos ===
+# === 6. Gráfico t de Student ===
 x_frag = df_spi["SPI"].apply(lambda x: (x - mu) / sigma).values
-n_frag = len(x_frag)
-df_t = n_frag - 1
+df = len(x_frag) - 1
 x_vals = np.linspace(min(x_frag)-2, max(x_frag)+2, 500)
-
-if n_frag > 50:
-    dist_label = "Distribución normal"
-    y_vals = norm.pdf(x_vals, loc=0, scale=1)
-    y_frag = norm.pdf(x_frag, loc=0, scale=1)
-    y_unknown = norm.pdf(norm_unknown, loc=0, scale=1)
-else:
-    dist_label = "Distribución t"
-    y_vals = t.pdf(x_vals, df_t, loc=0, scale=1)
-    y_frag = t.pdf(x_frag, df_t)
-    y_unknown = t.pdf(norm_unknown, df_t)
+t_curve = t.pdf(x_vals, df, loc=0, scale=1)
 
 plt.figure(figsize=(10, 6))
-plt.plot(x_vals, y_vals, label=dist_label)
-plt.scatter(x_frag, y_frag, marker="^", label="Fragmentos")
-plt.scatter(norm_unknown, y_unknown, marker="o", color="red", label="Unknown")
+plt.plot(x_vals, t_curve, label="Distribución t")
+plt.scatter(x_frag, t.pdf(x_frag, df), marker="^", label="Fragmentos")
+plt.scatter(norm_unknown, t.pdf(norm_unknown, df), marker="o", color="red", label="Unknown")
 plt.axvline(0, color="gray", linestyle="--")
-plt.title(f"{dist_label} – Modelo {modelo}")
+plt.title(f"Distribución t – Modelo {modelo}")
 plt.xlabel("SPI normalizado")
 plt.ylabel("Densidad")
 plt.legend()
@@ -155,7 +139,6 @@ plt.grid(True)
 plt.tight_layout()
 plt.savefig(figura_dir / f"figura_t_{modelo}.png")
 plt.close()
-
 
 # === 7. Guardar salidas ===
 pd.DataFrame(tabla3).to_csv(tabla_dir / f"tabla3_spi_normalizados_{modelo}.csv", index=False)
@@ -175,7 +158,7 @@ else:
     juicio = "⛔ Muy alejado del estilo del autor."
 
 resumen = [
-    f"## Resumen SPI normalizado – Modelo {modelo}",
+    f"# Resumen SPI normalizado – Modelo {modelo}",
     f"- SPI_normalizado(Unknown): {norm_unknown:.2f}",
     f"- Media fragmentos: {mu:.2f}",
     f"- Desviación estándar: {sigma:.2f}",
