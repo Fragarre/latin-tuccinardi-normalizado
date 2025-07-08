@@ -19,7 +19,7 @@ s = None if s_arg.lower() == "none" else int(s_arg)
 modelo = f"n{n}_L{s if s is not None else 'ALL'}"
 
 # === RUTAS ===
-base_dir = Path("C:/Users/fraga/projects/stamatatos_spi_normalizado")
+base_dir = Path(__file__).resolve().parent
 data_dir = base_dir / "data"
 zip_path = list((data_dir / "textos_ciertos").glob("*.zip"))[0]
 dudoso_path = list((data_dir / "texto_dudoso").glob("*.txt"))[0]
