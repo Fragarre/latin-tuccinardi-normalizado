@@ -17,7 +17,7 @@ resumen_path = data_dir / "resultados" / "resumen_spi_zscore.md"
 script_path = base_dir / "analisis_spi_completo.py"
 
 st.set_page_config(page_title="Análisis de Autoría SPI", layout="centered")
-st.subheader("Análisis de Autoría mediante SPI Normalizado")
+st.subheader("Análisis de Autoría mediante SPI Normalizado V 1.00")
 
 # === SIDEBAR ===
 st.sidebar.header("Parámetros del Modelo")
